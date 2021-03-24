@@ -31,6 +31,12 @@ public class ProdutoController {
 	
 	private @Autowired ProdutoServices services;
 	
+	
+		@GetMapping
+		public ResponseEntity<List<Produto>> getAll(){
+		return ResponseEntity.ok(repository.findAll());
+	}	
+	
 		@GetMapping("/produtos")
 		public ResponseEntity<List<Produto>> pegarPorNome(@RequestParam(defaultValue = "")String nomeProduto){
 				return new ResponseEntity<List<Produto>>(services.pegarProdutoPorNome(nomeProduto),HttpStatus.ACCEPTED);
