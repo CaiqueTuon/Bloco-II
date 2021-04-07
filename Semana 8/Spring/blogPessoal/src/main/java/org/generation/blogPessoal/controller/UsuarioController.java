@@ -28,9 +28,13 @@ public class UsuarioController {
 				.orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
 	}
 	@PostMapping("/cadastrar")
-	public ResponseEntity<Usuario> POST(@RequestBody Usuario usuario){
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(usuarioService.CadastrarUsuario(usuario));
+	public ResponseEntity<Object> POST(@RequestBody Usuario usuario){
+		Optional<Usuario> usuarioCadastrado = usuarioService.CadastrarUsuario(usuario);
+		if (usuarioCadastrado.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).body("Usuario Existente");
+		} else {
+			return ResponseEntity.status(HttpStatus.CREATED).body(usuarioCadastrado.get());
+		}
 	}
 
 }
